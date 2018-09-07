@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     
 
+
     
     var map_url_string = ""
     map_url_string = map_url_string.concat("https://maps.googleapis.com/maps/api/geocode/json?latlng=", lat, ",", long, "&key=AIzaSyABRfeQ5wogiKhzL28ZM-hk6tGiLHMfpcQ")
@@ -33,16 +34,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
         map_Httpreq.send(null);
         return map_Httpreq.responseText;
     }
-    try {
+
     var json_obj_map = JSON.parse(Get(map_url));
-    console.log(json_obj_map.results)
+    console.log(json_obj_map.results);
+    if (json_obj_map.results.length == 0){
+        document.getElementById("above").append("Ocean");
+    }
+    else{
     var curCountry = json_obj_map.results[json_obj_map.results.length-2].formatted_address;
     console.log(curCountry);
-    document.getElementById("above").append(curCountry);
-    }
-    catch(err){
-        document.getElementById("above").append("Ocean")
-    }
+    document.getElementById("above").append(curCountry);}
+    
     
     
     function Get(astro_url){
@@ -77,8 +79,8 @@ document.addEventListener("DOMContentLoaded", function(event){
     
 })
 
-lati = 31;
-longi = -157;
+lati = 45.5122;
+longi = -122.6587;
 var map;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -86,8 +88,3 @@ function initMap() {
           zoom: 5
         });
 } 
-
-
-
-
-
