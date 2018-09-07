@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function(event) {     
     
-    var astro_url = "http://api.open-notify.org/astros.json"
-    var station_url = "http://api.open-notify.org/iss-now.json"
+    var astro_url = "http://api.open-notify.org/astros.json";
+    var station_url = "http://api.open-notify.org/iss-now.json";
+    
 
     function Get(station_url){
         var station_Httpreq = new XMLHttpRequest();
@@ -18,10 +19,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log("Lon: "+ long);
     document.getElementById("lat").append(lat);
     document.getElementById("lon").append(long);
-
-
     
     
+
+    
+    var map_url_string = ""
+    map_url_string = map_url_string.concat("https://maps.googleapis.com/maps/api/geocode/json?latlng=", lat, ",", long, "&key=AIzaSyABRfeQ5wogiKhzL28ZM-hk6tGiLHMfpcQ")
+    console.log(map_url_string)
+    var map_url = map_url_string;
+    function Get(map_url){
+        var map_Httpreq = new XMLHttpRequest();
+        map_Httpreq.open("GET", map_Httpreq, false);
+        map_Httpreq.send(null);
+        return map_Httpreq.responseText;
+    }
+    try {
+    var json_obj_map = JSON.parse(Get(map_url));
+    console.log(json_obj_map.results)
+    var curCountry = json_obj_map.results[json_obj_map.results.length-2].formatted_address;
+    console.log(curCountry);
+    document.getElementById("above").append(curCountry);
+    }
+    catch(err){
+        document.getElementById("above").append("Ocean")
+    }
     
     
     function Get(astro_url){
@@ -48,15 +69,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
+
+
 });
 
+document.addEventListener("DOMContentLoaded", function(event){
+    
+})
 
-
-
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+lati = 31;
+longi = -157;
+var map;
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: lati, lng: longi},
+          zoom: 5
         });
-      }
+} 
+
+
+
+
+
